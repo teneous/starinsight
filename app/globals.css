@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
+    /* 图表颜色 */
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background: linear-gradient(to bottom, hsl(240 10% 3.9%), hsl(240 10% 2%));
+    min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+  h1 {
+    @apply text-3xl font-semibold;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    @apply text-2xl font-semibold;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors;
+  }
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground shadow-sm p-6;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 8px 16px rgba(0, 0, 0, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .card:hover::before {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+  }
+
+  .card-header {
+    @apply mb-2;
+  }
+
+  .card-title {
+    @apply text-lg font-semibold relative inline-block;
+  }
+
+  .card-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0)
+    );
+    transition: width 0.3s ease;
+  }
+
+  .card:hover .card-title::after {
+    width: 100%;
+  }
+
+  .card-description {
+    @apply text-sm text-muted-foreground line-clamp-3 mb-4;
+    flex: 1;
+  }
+
+  .card-footer {
+    @apply flex items-center justify-between pt-4 mt-auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .card-stats {
+    @apply flex items-center space-x-4 text-sm;
+  }
+
+  .repo-language {
+    @apply flex items-center space-x-1.5 px-2 py-1 rounded-full text-xs font-medium;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .repo-language-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .repo-language-dot[data-language="JavaScript"] { @apply bg-yellow-400; }
+  .repo-language-dot[data-language="TypeScript"] { @apply bg-blue-400; }
+  .repo-language-dot[data-language="Python"] { @apply bg-green-400; }
+  .repo-language-dot[data-language="Java"] { @apply bg-red-400; }
+  .repo-language-dot[data-language="Go"] { @apply bg-cyan-400; }
+  .repo-language-dot[data-language="Rust"] { @apply bg-orange-400; }
+  .repo-language-dot[data-language="C++"] { @apply bg-pink-400; }
+  .repo-language-dot[data-language="PHP"] { @apply bg-purple-400; }
+  .repo-language-dot[data-language="Ruby"] { @apply bg-red-500; }
+  /* 默认颜色 */
+  .repo-language-dot { @apply bg-gray-400; }
+
+  .repo-stars {
+    @apply flex items-center space-x-1.5 px-2 py-1 rounded-full text-xs font-medium;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .repo-stars svg {
+    @apply w-3.5 h-3.5;
+    color: #FFD700;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.3));
+  }
+
+  .card-link {
+    @apply text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-300;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .card-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .nav-container {
+    @apply fixed top-0 left-0 right-0 z-50 backdrop-blur-xl;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 15, 15, 0.95),
+      rgba(15, 15, 15, 0.8)
+    );
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-content {
+    @apply container mx-auto px-4 h-16 flex items-center justify-between;
+  }
+
+  .nav-brand {
+    @apply text-xl font-semibold tracking-tight;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.7)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-menu {
+    @apply hidden md:flex items-center space-x-1 ml-10;
+  }
+
+  .nav-link {
+    @apply px-4 py-2 text-sm font-medium rounded-full transition-all duration-300;
+  }
+
+  .nav-link-active {
+    @apply bg-white/10 text-white;
+    box-shadow: 
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.05),
+      0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-link-inactive {
+    @apply text-gray-400 hover:text-white hover:bg-white/5;
+  }
+
+  .nav-user-section {
+    @apply flex items-center space-x-4;
+  }
+
+  .nav-user {
+    @apply flex items-center space-x-3 px-4 py-2 rounded-full text-sm font-medium;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-user-avatar {
+    @apply w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-xs font-medium text-white;
+  }
+
+  .nav-sign-out {
+    @apply px-4 py-2 text-sm font-medium rounded-full transition-all duration-300;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-sign-out:hover {
+    @apply transform -translate-y-0.5;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Mobile navigation */
+  .nav-mobile-menu {
+    @apply md:hidden mt-2 px-2 pb-3 pt-2 space-y-1 rounded-2xl mx-4;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-mobile-link {
+    @apply block px-3 py-2 text-sm font-medium rounded-xl transition-all duration-300;
+  }
+
+  .nav-mobile-link-active {
+    @apply bg-white/10 text-white;
+  }
+
+  .nav-mobile-link-inactive {
+    @apply text-gray-400 hover:text-white hover:bg-white/5;
+  }
+
+  /* 调整主内容区域的上边距，为固定导航栏留出空间 */
+  .main-content {
+    @apply pt-20 pb-24;
+  }
+} 

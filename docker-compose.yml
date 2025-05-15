@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  starinsight:
+    image: teneous/starinsight:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
