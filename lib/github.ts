@@ -1,8 +1,17 @@
 import { Session } from 'next-auth'
 
 interface GitHubRepo {
+  id: number
+  name: string
+  full_name: string
+  description: string | null
+  html_url: string
   language: string | null
   stargazers_count: number
+  topics: string[]
+  created_at: string
+  updated_at: string
+  pushed_at: string
 }
 
 export async function getGitHubStarredRepos(session: Session): Promise<GitHubRepo[] | null> {

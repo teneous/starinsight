@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "echo '应用运行在: http://localhost:3000/starinsight' && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

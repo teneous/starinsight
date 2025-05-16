@@ -6,8 +6,6 @@
 
 StarInsight 旨在为管理 GitHub 已收藏仓库提供一个智能且直观的解决方案。该项目致力于解决用户在收藏大量仓库后缺乏有效组织的问题，使得查找和利用这些资源变得困难的现状。
 
-## Demo
-`https://syoka.icu/starinsight`
 
 ## 功能特性
 

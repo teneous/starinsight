@@ -6,8 +6,6 @@ A GitHub star management application built with Cursor IDE to help users better 
 
 StarInsight is designed to provide an intelligent and intuitive way to manage your GitHub starred repositories. The project aims to solve the common problem of having too many starred repositories without proper organization, making it difficult to find and utilize them effectively.
 
-## Demo
-`https://syoka.icu/starinsight`
 
 ## Features
 

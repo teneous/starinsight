@@ -55,7 +55,7 @@ export default function Dashboard() {
   const fetchStars = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/stars?page=${currentPage}&pageSize=${itemsPerPage}`)
+      const response = await fetch(`/starinsight/api/stars?page=${currentPage}&pageSize=${itemsPerPage}`)
       if (!response.ok) {
         const error = await response.json()
         throw new Error(error.error || '获取数据失败')
@@ -83,7 +83,7 @@ export default function Dashboard() {
   const analyzeRepositories = async (repositories: StarredRepo[]) => {
     try {
       setAnalyzing(true)
-      const response = await fetch('/api/analyze', {
+      const response = await fetch('/starinsight/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

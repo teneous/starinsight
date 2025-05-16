@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { authOptions } from '../auth/[...nextauth]/route';
 import { getGitHubStarredRepos } from '@/lib/github';
 
 export async function GET() {
@@ -34,13 +34,25 @@ export async function GET() {
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
 
+    // Process topics statistics
+    const topicsStats = new Map<string, number>();
+    starredRepos.forEach(repo => {
+      if (repo.topics && Array.isArray(repo.topics)) {
+        repo.topics.forEach(topic => {
+          topicsStats.set(topic, (topicsStats.get(topic) || 0) + 1);
+        });
+      }
+    });
+
+    const topicsData = Array.from(topicsStats.entries())
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 20); // 只返回前20个最常用的标签
+
     // Process star count distribution
     const starRanges = [
-      { min: 0, max: 10, label: '0-10' },
-      { min: 11, max: 50, label: '11-50' },
-      { min: 51, max: 100, label: '51-100' },
-      { min: 101, max: 500, label: '101-500' },
-      { min: 501, max: 1000, label: '501-1k' },
+      { min: 0, max: 50, label: '<100' },
+      { min: 101, max: 1000, label: '<1k' },
       { min: 1001, max: 5000, label: '1k-5k' },
       { min: 5001, max: 10000, label: '5k-10k' },
       { min: 10001, max: Infinity, label: '10k+' }
@@ -57,6 +69,7 @@ export async function GET() {
     // Return analytics data
     return NextResponse.json({
       languageData,
+      topicsData,
       starDistribution,
       totalStars: starredRepos.length
     });
