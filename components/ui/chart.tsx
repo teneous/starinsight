@@ -136,8 +136,27 @@ const COLORS = [
 ]
 
 export function ChartCard({ title, description, data, type = "bar" }: ChartCardProps) {
+  // 计算最大值用于颜色映射
+  const maxValue = Math.max(...data.map(item => item.value))
+  
+  // 计算总和用于饼图占比
+  const total = data.reduce((sum, item) => sum + item.value, 0)
+
+  // 根据数值大小或占比计算颜色深浅
+  const getColor = (value: number, isPercentage = false) => {
+    const opacity = isPercentage 
+      ? value / total  // 饼图用占比
+      : value / maxValue  // 柱状图用数值比
+    // 提高基础透明度到 0.5，减小变化范围到 0.4，使颜色变化更加平缓
+    const mappedOpacity = 0.5 + (opacity * 0.4)
+    return `rgba(255, 255, 255, ${mappedOpacity.toFixed(2)})`
+  }
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
+      const value = payload[0].value
+      const percentage = ((value / total) * 100).toFixed(1)
+      
       return (
         <div className="rounded-lg border bg-zinc-900/95 p-3 shadow-xl backdrop-blur-sm">
           <div className="flex flex-col gap-1">
@@ -150,7 +169,7 @@ export function ChartCard({ title, description, data, type = "bar" }: ChartCardP
                 style={{ background: payload[0].color }}
               />
               <span className="text-sm font-semibold text-white">
-                {payload[0].value}
+                {value} ({percentage}%)
               </span>
             </div>
           </div>
@@ -183,10 +202,10 @@ export function ChartCard({ title, description, data, type = "bar" }: ChartCardP
                     `${name}: ${value} (${(percent * 100).toFixed(0)}%)`
                   }
                 >
-                  {data.map((_, index) => (
+                  {data.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
-                      fill={COLORS[index % COLORS.length]}
+                      fill={getColor(entry.value, true)}
                       className="stroke-zinc-900 hover:opacity-90 transition-opacity duration-200"
                       strokeWidth={2}
                     />
@@ -199,8 +218,10 @@ export function ChartCard({ title, description, data, type = "bar" }: ChartCardP
                 <Legend 
                   verticalAlign="bottom" 
                   height={36}
-                  formatter={(value) => (
-                    <span className="text-sm font-medium text-zinc-300">{value}</span>
+                  formatter={(value, entry: any) => (
+                    <span className="text-sm font-medium text-zinc-300">
+                      {value}
+                    </span>
                   )}
                 />
               </PieChart>
@@ -240,10 +261,10 @@ export function ChartCard({ title, description, data, type = "bar" }: ChartCardP
                   dataKey="value"
                   radius={[4, 4, 0, 0]}
                 >
-                  {data.map((_, index) => (
+                  {data.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
+                      fill={getColor(entry.value, false)}
                       className="hover:opacity-90 transition-opacity duration-200 drop-shadow-lg"
                     />
                   ))}

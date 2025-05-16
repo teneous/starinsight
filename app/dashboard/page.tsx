@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Pagination } from '../../components/ui/pagination'
 import { Star } from 'lucide-react'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
 
 interface StarredRepo {
   id: number
@@ -125,8 +126,23 @@ export default function Dashboard() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="container mx-auto p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Loading Projects</CardTitle>
+            <CardDescription>
+              Fetching your GitHub starred repositories, this may take a few moments...
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+            <p className="text-center text-sm text-muted-foreground">
+              Please wait while we load your starred repositories
+            </p>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -136,9 +152,23 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold mb-8">Starred Projects</h1>
       
       {analyzing ? (
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Analyzing projects, please wait...</p>
+        <div className="container mx-auto p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analyzing Projects</CardTitle>
+              <CardDescription>
+                Analyzing your starred repositories to provide meaningful insights...
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+              </div>
+              <p className="text-center text-sm text-muted-foreground">
+                Categorizing and analyzing your repositories based on their characteristics
+              </p>
+            </CardContent>
+          </Card>
         </div>
       ) : categories.length > 0 ? (
         <div className="space-y-8">

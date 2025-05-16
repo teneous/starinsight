@@ -59,10 +59,14 @@ export default function AnalyticsDashboard() {
         setLoading(true)
         setError(null)
 
-        const response = await fetch('/starinsight/api/analytics')
+        const response = await fetch('/starinsight/api/analytics', {
+          // 设置较长的超时时间
+          signal: AbortSignal.timeout(5 * 60 * 1000) // 5 minutes timeout
+        })
         
         if (!response.ok) {
-          throw new Error(`Request failed: ${response.statusText}`)
+          const errorData = await response.json().catch(() => ({}))
+          throw new Error(errorData.message || `Request failed: ${response.statusText}`)
         }
 
         const analyticsData = await response.json()
@@ -91,8 +95,23 @@ export default function AnalyticsDashboard() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="container mx-auto p-6 flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="container mx-auto p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Loading Data</CardTitle>
+            <CardDescription>
+              Fetching and analyzing your GitHub Stars data, this may take a few minutes...
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+            <p className="text-center text-sm text-muted-foreground">
+              Initial loading may take longer if you have a large number of starred repositories
+            </p>
+          </CardContent>
+        </Card>
       </div>
     )
   }
@@ -102,15 +121,18 @@ export default function AnalyticsDashboard() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-destructive">加载数据出错</CardTitle>
+            <CardTitle className="text-destructive">Error Loading Data</CardTitle>
+            <CardDescription>
+              An error occurred while fetching data. Please try again later.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p>{error}</p>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">{error}</p>
             <button 
               onClick={handleRetry}
-              className="mt-4 px-4 py-2 bg-primary/10 rounded-md hover:bg-primary/20 transition-colors"
+              className="w-full mt-4 px-4 py-2 bg-primary/10 rounded-md hover:bg-primary/20 transition-colors"
             >
-              重新加载
+              Retry
             </button>
           </CardContent>
         </Card>
@@ -127,15 +149,15 @@ export default function AnalyticsDashboard() {
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Stars Analytics</h1>
         <p className="text-muted-foreground">
-          深入分析你的个已收藏的 GitHub 仓库
+          Analyzing your {data?.totalStars || 0} starred GitHub repositories
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
         <Card className="col-span-full md:col-span-4">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-xl">编程语言分布</CardTitle>
-            <CardDescription>按编程语言统计的项目数量分布</CardDescription>
+            <CardTitle className="text-xl">Language Distribution</CardTitle>
+            <CardDescription>Distribution of programming languages across starred repositories</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartCard
@@ -147,8 +169,8 @@ export default function AnalyticsDashboard() {
 
         <Card className="col-span-full md:col-span-4">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-xl">Star 数量分布</CardTitle>
-            <CardDescription>按 Star 数量范围统计的项目分布</CardDescription>
+            <CardTitle className="text-xl">Star Count Distribution</CardTitle>
+            <CardDescription>Distribution of repositories by star count ranges</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartCard
@@ -163,10 +185,10 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">总收藏数</CardTitle>
+              <CardTitle className="text-lg">Total Stars</CardTitle>
               <HardDrive className="h-4 w-4 text-muted-foreground" />
             </div>
-            <CardDescription>所有已收藏的仓库数量</CardDescription>
+            <CardDescription>Total number of starred repositories</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data?.totalStars || 0}</div>
@@ -176,14 +198,14 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">主要语言</CardTitle>
+              <CardTitle className="text-lg">Primary Language</CardTitle>
               <Languages className="h-4 w-4 text-muted-foreground" />
             </div>
-            <CardDescription>使用最多的编程语言</CardDescription>
+            <CardDescription>Most used programming language</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {processedLanguageData[0]?.name || "暂无数据"}
+              {processedLanguageData[0]?.name || "No data"}
             </div>
           </CardContent>
         </Card>
@@ -191,14 +213,14 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Star 范围</CardTitle>
+              <CardTitle className="text-lg">Star Range</CardTitle>
               <Filter className="h-4 w-4 text-muted-foreground" />
             </div>
-            <CardDescription>最常见的 Star 数量范围</CardDescription>
+            <CardDescription>Most common star count range</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {processedStarData[0]?.name || "暂无数据"}
+              {processedStarData[0]?.name || "No data"}
             </div>
           </CardContent>
         </Card>

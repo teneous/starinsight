@@ -3,9 +3,12 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { getGitHubStarredRepos } from '@/lib/github';
 
+export const dynamic = 'force-dynamic';
+export const maxDuration = 300; // 设置最大执行时间为 300 秒
+
 export async function GET() {
   try {
-    // Check authentication
+    // 检查认证
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json(
@@ -14,8 +17,12 @@ export async function GET() {
       );
     }
 
-    // Get starred repositories
-    const starredRepos = await getGitHubStarredRepos(session);
+    // 获取所有 starred 仓库
+    const starredRepos = await getGitHubStarredRepos(session, (progress) => {
+      // Log progress for monitoring
+      console.log(`Fetching progress: ${progress.percentage}%`);
+    });
+
     if (!starredRepos) {
       return NextResponse.json(
         { error: 'Failed to fetch starred repositories' },
@@ -26,7 +33,7 @@ export async function GET() {
     // Process language statistics
     const languageStats = new Map<string, number>();
     starredRepos.forEach(repo => {
-      const language = repo.language || 'No Data';
+      const language = repo.language || 'Unknown';
       languageStats.set(language, (languageStats.get(language) || 0) + 1);
     });
 
@@ -47,11 +54,11 @@ export async function GET() {
     const topicsData = Array.from(topicsStats.entries())
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value)
-      .slice(0, 20); // 只返回前20个最常用的标签
+      .slice(0, 20); // Return top 20 most used tags
 
     // Process star count distribution
     const starRanges = [
-      { min: 0, max: 50, label: '<100' },
+      { min: 0, max: 100, label: '<100' },
       { min: 101, max: 1000, label: '<1k' },
       { min: 1001, max: 5000, label: '1k-5k' },
       { min: 5001, max: 10000, label: '5k-10k' },
@@ -64,19 +71,23 @@ export async function GET() {
         repo.stargazers_count >= range.min && 
         repo.stargazers_count <= range.max
       ).length
-    }));
+    })).filter(item => item.value > 0); // Only return ranges with data
 
     // Return analytics data
     return NextResponse.json({
       languageData,
       topicsData,
       starDistribution,
-      totalStars: starredRepos.length
+      totalStars: starredRepos.length,
+      metadata: {
+        fetchedAt: new Date().toISOString(),
+        totalRepos: starredRepos.length,
+      }
     });
   } catch (error) {
     console.error('Analytics API Error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', message: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
