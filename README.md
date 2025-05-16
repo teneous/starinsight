@@ -2,6 +2,10 @@
 
 A GitHub star management application built with Cursor IDE to help users better organize and understand their starred repositories.
 
+## Demo
+
+Visit our live demo: [https://syoka.icu/starinsight](https://syoka.icu/starinsight)
+
 ## Overview
 
 StarInsight is designed to provide an intelligent and intuitive way to manage your GitHub starred repositories. The project aims to solve the common problem of having too many starred repositories without proper organization, making it difficult to find and utilize them effectively.
@@ -45,7 +49,7 @@ cd starinsight
 
 2. Install dependencies
 ```bash
-npm install
+pnpm install
 ```
 
 3. Set up environment variables
@@ -56,7 +60,7 @@ Then fill in your GitHub OAuth and OpenAI API credentials.
 
 4. Run the development server
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## Contributing

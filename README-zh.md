@@ -2,6 +2,10 @@
 
 一个使用 Cursor IDE 开发的 GitHub Star 管理应用，帮助用户更好地管理和理解已收藏的项目。
 
+## 在线演示
+
+访问演示站点：[https://syoka.icu/starinsight](https://syoka.icu/starinsight)
+
 ## 项目概述
 
 StarInsight 旨在为管理 GitHub 已收藏仓库提供一个智能且直观的解决方案。该项目致力于解决用户在收藏大量仓库后缺乏有效组织的问题，使得查找和利用这些资源变得困难的现状。
@@ -45,7 +49,7 @@ cd starinsight
 
 2. 安装依赖
 ```bash
-npm install
+pnpm install
 ```
 
 3. 配置环境变量
@@ -56,7 +60,7 @@ cp .env.example .env.local
 
 4. 启动开发服务器
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## 参与贡献
