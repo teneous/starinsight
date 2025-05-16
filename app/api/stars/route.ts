@@ -1,7 +1,10 @@
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 import axios from 'axios'
-import { authOptions } from '../auth/[...nextauth]/route'
+import { authOptions } from '@/app/auth'
+
+export const dynamic = 'force-dynamic'
+export const maxDuration = 300 // 设置最大执行时间为 300 秒
 
 // 缓存时间（10分钟）
 const CACHE_DURATION = 10 * 60 * 1000

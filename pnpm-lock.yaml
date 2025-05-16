@@ -4176,6 +4176,8 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
+  simple-icons@14.13.0: {}
+
   slash@3.0.0: {}
 
   source-map-js@1.2.1: {}
