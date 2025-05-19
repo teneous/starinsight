@@ -37,8 +37,13 @@ export default function Dashboard() {
     try {
       setLoading(true);
       const data = await githubApi.getStarredRepos(currentPage, itemsPerPage);
+      if (!data || !Array.isArray(data.items)) {
+        setStars([]);
+        setTotalItems(0);
+        setTotalPages(1);
+        return;
+      }
 
-      // 更新状态
       setStars(data.items);
       setTotalItems(data.total);
       setTotalPages(Math.ceil(data.total / itemsPerPage));
@@ -49,6 +54,8 @@ export default function Dashboard() {
     } catch (error) {
       console.error('Error:', error);
       setStars([]);
+      setTotalItems(0);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }

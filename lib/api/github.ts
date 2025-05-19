@@ -1,10 +1,4 @@
-import {
-  AnalyticsData,
-  ApiResponse,
-  GithubRepository,
-  PaginatedResponse,
-  StarredRepoCategory,
-} from '@/types';
+import { ApiResponse, GithubRepository, PaginatedResponse, StarredRepoCategory } from '@/types';
 
 import { Session } from 'next-auth';
 import apiClient from './axios';
@@ -124,10 +118,9 @@ export class GithubApiClient {
     page: number,
     pageSize: number
   ): Promise<PaginatedResponse<GithubRepository>> {
-    const res = await apiClient.get<PaginatedResponse<GithubRepository>>('/stars', {
+    return await apiClient.get<PaginatedResponse<GithubRepository>>('/stars', {
       params: { page, pageSize },
     });
-    return res.data;
   }
 
   // 分析仓库

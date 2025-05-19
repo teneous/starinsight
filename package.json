@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "echo '应用运行在: http://localhost:3000/starinsight' && next dev",
     "build": "next build",
+    "build:prod": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\""

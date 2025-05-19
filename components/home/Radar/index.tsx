@@ -1,6 +1,32 @@
+import { useEffect, useState } from 'react';
 import './styles.css';
 
+interface Dot {
+  top: string;
+  left: string;
+  backgroundColor: string;
+  animation: string;
+  boxShadow: string;
+}
+
 export function Radar() {
+  const [dots, setDots] = useState<Dot[]>([]);
+
+  useEffect(() => {
+    const newDots: Dot[] = Array.from({ length: 12 }).map((_, i) => {
+      const radius = 20 + Math.random() * 30;
+      const angle = (i * 30 + Math.random() * 15) * (Math.PI / 180);
+      return {
+        top: `${50 + radius * Math.sin(angle)}%`,
+        left: `${50 + radius * Math.cos(angle)}%`,
+        backgroundColor: `rgba(${Math.random() > 0.5 ? '255,255,255' : '120,119,198'},${0.2 + Math.random() * 0.3})`,
+        animation: `pulse ${1 + Math.random() * 2}s ${Math.random() * 2}s infinite`,
+        boxShadow: '0 0 8px rgba(120,119,198,0.3)',
+      };
+    });
+    setDots(newDots);
+  }, []);
+
   return (
     <div className="hidden lg:block relative">
       <div className="absolute -inset-4">
@@ -26,25 +52,11 @@ export function Radar() {
           <div className="h-1/2 w-[2px] mx-auto bg-gradient-to-b from-primary/80 to-transparent blur-[2px]" />
         </div>
 
-        {/* 动态点状装饰 */}
+        {/* 动态点状装饰（只在客户端渲染） */}
         <div className="absolute inset-0">
-          {[...Array(12)].map((_, i) => {
-            const radius = 20 + Math.random() * 30;
-            const angle = (i * 30 + Math.random() * 15) * (Math.PI / 180);
-            return (
-              <span
-                key={i}
-                className="absolute w-2 h-2 rounded-full"
-                style={{
-                  top: `${50 + radius * Math.sin(angle)}%`,
-                  left: `${50 + radius * Math.cos(angle)}%`,
-                  backgroundColor: `rgba(${Math.random() > 0.5 ? '255,255,255' : '120,119,198'},${0.2 + Math.random() * 0.3})`,
-                  animation: `pulse ${1 + Math.random() * 2}s ${Math.random() * 2}s infinite`,
-                  boxShadow: '0 0 8px rgba(120,119,198,0.3)',
-                }}
-              />
-            );
-          })}
+          {dots.map((dot, i) => (
+            <span key={i} className="absolute w-2 h-2 rounded-full" style={dot} />
+          ))}
         </div>
 
         {/* 光点轨迹 */}
