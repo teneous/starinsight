@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { signOut } from 'next-auth/react'
+import { useEffect } from 'react';
+import { signOut } from 'next-auth/react';
 
 export default function SignOut() {
   useEffect(() => {
-    signOut({ callbackUrl: '/' })
-  }, [])
+    signOut({ callbackUrl: '/' });
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -15,5 +15,5 @@ export default function SignOut() {
         <p className="mt-2 text-muted-foreground">请稍候，正在安全退出你的账号</p>
       </div>
     </div>
-  )
-} 
+  );
+}

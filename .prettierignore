@@ -1,0 +1,17 @@
+# 构建输出
+.next
+out
+build
+dist
+
+# 依赖
+node_modules
+package-lock.json
+pnpm-lock.yaml
+
+# 其他忽略的文件
+public
+.github
+.vscode
+*.log
+*.lock 

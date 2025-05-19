@@ -25,7 +25,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    
+
     /* 图表颜色 */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -46,11 +46,16 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     background: linear-gradient(to bottom, hsl(240 10% 3.9%), hsl(240 10% 2%));
     min-height: 100vh;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-medium tracking-tight;
   }
   h1 {
@@ -76,18 +81,18 @@
   }
 
   .card::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
-    mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    -webkit-mask:
+      linear-gradient(#000, #000) content-box,
+      linear-gradient(#000, #000);
+    mask:
+      linear-gradient(#000, #000) content-box,
+      linear-gradient(#000, #000);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
@@ -99,7 +104,7 @@
       rgba(255, 255, 255, 0.05) 0%,
       rgba(255, 255, 255, 0.02) 100%
     );
-    box-shadow: 
+    box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.08),
       0 8px 16px rgba(0, 0, 0, 0.4),
       0 4px 8px rgba(0, 0, 0, 0.2),
@@ -123,17 +128,13 @@
   }
 
   .card-title::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: -4px;
     width: 0;
     height: 1px;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0)
-    );
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
     transition: width 0.3s ease;
   }
 
@@ -165,17 +166,37 @@
     @apply w-2 h-2 rounded-full;
   }
 
-  .repo-language-dot[data-language="JavaScript"] { @apply bg-yellow-400; }
-  .repo-language-dot[data-language="TypeScript"] { @apply bg-blue-400; }
-  .repo-language-dot[data-language="Python"] { @apply bg-green-400; }
-  .repo-language-dot[data-language="Java"] { @apply bg-red-400; }
-  .repo-language-dot[data-language="Go"] { @apply bg-cyan-400; }
-  .repo-language-dot[data-language="Rust"] { @apply bg-orange-400; }
-  .repo-language-dot[data-language="C++"] { @apply bg-pink-400; }
-  .repo-language-dot[data-language="PHP"] { @apply bg-purple-400; }
-  .repo-language-dot[data-language="Ruby"] { @apply bg-red-500; }
+  .repo-language-dot[data-language='JavaScript'] {
+    @apply bg-yellow-400;
+  }
+  .repo-language-dot[data-language='TypeScript'] {
+    @apply bg-blue-400;
+  }
+  .repo-language-dot[data-language='Python'] {
+    @apply bg-green-400;
+  }
+  .repo-language-dot[data-language='Java'] {
+    @apply bg-red-400;
+  }
+  .repo-language-dot[data-language='Go'] {
+    @apply bg-cyan-400;
+  }
+  .repo-language-dot[data-language='Rust'] {
+    @apply bg-orange-400;
+  }
+  .repo-language-dot[data-language='C++'] {
+    @apply bg-pink-400;
+  }
+  .repo-language-dot[data-language='PHP'] {
+    @apply bg-purple-400;
+  }
+  .repo-language-dot[data-language='Ruby'] {
+    @apply bg-red-500;
+  }
   /* 默认颜色 */
-  .repo-language-dot { @apply bg-gray-400; }
+  .repo-language-dot {
+    @apply bg-gray-400;
+  }
 
   .repo-stars {
     @apply flex items-center space-x-1.5 px-2 py-1 rounded-full text-xs font-medium;
@@ -185,7 +206,7 @@
 
   .repo-stars svg {
     @apply w-3.5 h-3.5;
-    color: #FFD700;
+    color: #ffd700;
     filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.3));
   }
 
@@ -203,11 +224,7 @@
 
   .nav-container {
     @apply fixed top-0 left-0 right-0 z-50 backdrop-blur-xl;
-    background: linear-gradient(
-      to bottom,
-      rgba(15, 15, 15, 0.95),
-      rgba(15, 15, 15, 0.8)
-    );
+    background: linear-gradient(to bottom, rgba(15, 15, 15, 0.95), rgba(15, 15, 15, 0.8));
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
@@ -217,11 +234,7 @@
 
   .nav-brand {
     @apply text-xl font-semibold tracking-tight;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.95),
-      rgba(255, 255, 255, 0.7)
-    );
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -237,7 +250,7 @@
 
   .nav-link-active {
     @apply bg-white/10 text-white;
-    box-shadow: 
+    box-shadow:
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
       inset 0 -1px 0 0 rgba(255, 255, 255, 0.05),
       0 1px 2px 0 rgba(0, 0, 0, 0.2);
@@ -271,7 +284,7 @@
     @apply transform -translate-y-0.5;
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 
+    box-shadow:
       0 4px 12px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
@@ -300,4 +313,4 @@
   .main-content {
     @apply pt-20 pb-24;
   }
-} 
+}

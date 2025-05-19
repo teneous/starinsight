@@ -10,22 +10,24 @@ Visit our live demo: [https://syoka.icu/starinsight](https://syoka.icu/starinsig
 
 StarInsight is designed to provide an intelligent and intuitive way to manage your GitHub starred repositories. The project aims to solve the common problem of having too many starred repositories without proper organization, making it difficult to find and utilize them effectively.
 
-
 ## Features
 
 ### Project List (In Development)
+
 - View all your starred repositories in one place
 - Advanced filtering and sorting capabilities
 - Quick access to repository details and statistics
 - Modern and responsive UI design
 
 ### Analytics Dashboard (In Development)
+
 - Visualize your star history and trends
 - Language distribution analysis
 - Topic and category breakdown
 - Interactive charts and graphs
 
 ### AI-Powered Features (In Development)
+
 - Automatic repository categorization
 - Smart project recommendations
 - Related repository suggestions
@@ -42,23 +44,28 @@ StarInsight is designed to provide an intelligent and intuitive way to manage yo
 ## Getting Started
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/yourusername/starinsight.git
 cd starinsight
 ```
 
 2. Install dependencies
+
 ```bash
 pnpm install
 ```
 
 3. Set up environment variables
+
 ```bash
 cp .env.example .env.local
 ```
+
 Then fill in your GitHub OAuth and OpenAI API credentials.
 
 4. Run the development server
+
 ```bash
 pnpm dev
 ```
@@ -73,4 +80,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-This project was developed using [Cursor](https://cursor.sh), an AI-powered code editor that significantly enhanced the development process. 
+This project was developed using [Cursor](https://cursor.sh), an AI-powered code editor that significantly enhanced the development process.
